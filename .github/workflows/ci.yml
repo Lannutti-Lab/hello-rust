@@ -37,7 +37,7 @@ jobs:
         
       - name: Push Image
         run: |
-          podman tag localhost/${{ github.event.repository.name }} ${{ secrets.CONTAINER_REGISTRY_DOMAIN }}/${{ github.event.repository.name }}
+          podman tag localhost/${{ github.event.repository.name }}:$(./VERSION) ${{ secrets.CONTAINER_REGISTRY_DOMAIN }}/${{ github.event.repository.name }}:$(./VERSION)
           podman login ${{ secrets.CONTAINER_REGISTRY_DOMAIN }} -u ${{ secrets.CONTAINER_REGISTRY_USERNAME }} -p ${{secrets.CONTAINER_REGISTRY_ACCESS_TOKEN }}
-          podman push ${{ secrets.CONTAINER_REGISTRY_DOMAIN }}/ ${{ github.event.repository.name }}
+          podman push ${{ secrets.CONTAINER_REGISTRY_DOMAIN }}/${{ github.event.repository.name }}:$(./VERSION)
           podman logout ${{ secrets.CONTAINER_REGISTRY_DOMAIN }}

@@ -1,6 +1,6 @@
 #!/bin/sh
 PROJECT_NAME='hello-rust'
-VERSION='0.0.0'
+VERSION="$(./VERSION)"
 
 build_ctr=$(buildah from docker.io/rust:1-alpine)
 local_src_prefix=$(dirname $(readlink -f "$0"))
