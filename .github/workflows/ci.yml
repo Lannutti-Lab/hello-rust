@@ -26,7 +26,11 @@ jobs:
           command: test
         
       - name: Install dependencies for image build process
-        run: sudo apt update && sudo apt install --no-cache=true buildah podman
+        run: |
+          sudo apt update
+          sudo apt upgrade
+          sudo apt install -y buildah podman
+          sudo apt clean
       
       - name: Podman Login
         uses: redhat-actions/podman-login@v1
