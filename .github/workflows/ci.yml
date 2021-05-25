@@ -31,13 +31,6 @@ jobs:
           sudo apt upgrade
           sudo apt install -y buildah podman
           sudo apt clean
-      
-      - name: Podman Login
-        uses: redhat-actions/podman-login@v1
-        with: 
-          registry: ${{ secrets.CONTAINER_REGISTRY_DOMAIN }}
-          username: ${{ secrets.CONTAINER_REGISTRY_USERNAME }}
-          password: ${{ secrets.CONTAINER_REGISTRY_ACCESS_TOKEN }}
           
       - name: Build Image
         run: ./build-image.sh
@@ -45,4 +38,6 @@ jobs:
       - name: Push Image
         run: |
           podman tag localhost/${{ github.event.repository.name }} ${{ secrets.CONTAINER_REGISTRY_DOMAIN }}/${{ github.event.repository.name }}
+          podman login ${{ secrets.CONTAINER_REGISTRY_DOMAIN }} -u ${{ secrets.CONTAINER_REGISTRY_USERNAME }} -p ${{secrets.CONTAINER_REGISTRY_ACCESS_TOKEN }}
           podman push ${{ secrets.CONTAINER_REGISTRY_DOMAIN }}/ ${{ github.event.repository.name }}
+          podman logout ${{ secrets.CONTAINER_REGISTRY_DOMAIN }}
